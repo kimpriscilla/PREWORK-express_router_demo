@@ -48,80 +48,8 @@ app.get("/", async (req, res, next) => {
   }
 });
 
-app.get("/users", async (req, res, next) => {
-  try {
-    const [users, places] = await Promise.all([getUsers(), getPlaces()]);
-    res.send(
-      `<html>
-       ${head({ title: "Users" })}
-        <body>
-        ${nav({ users, places })}
-        <form method='POST'>
-        <input name='name'/>
-        <button> Create </button>
-        </form>
-        ${users
-          .map(
-            (user) =>
-              `<li>
-              ${user.name}
-              <form method = 'POST' action='/users/${user.id}?_method=DELETE'>
-              <button>X</button>
-              </form>
-            </li>`
-          )
-          .join("")}
-        </body>
-      </html>`
-    );
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.post("/users", async (req, res, next) => {
-  try {
-    await createUser(req.body); //!whatever the user posts, aka new name, pass that req.body(which is a name user inputted) into createUser func
-    res.redirect("/users"); //! and redirect the page back to /users
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.delete("/users/:id", async (req, res, next) => {
-  try {
-    await deleteUser(req.params.id);
-    res.redirect("/users"); //! and redirect the page back to /users
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.get("/places", async (req, res, next) => {
-  try {
-    const [users, places] = await Promise.all([getUsers(), getPlaces()]);
-    res.send(
-      `<html>
-       ${head({ title: "Places" })}
-        <body>
-        ${nav({ users, places })}
-
-
-        ${places
-          .map(
-            (place) =>
-              `<li>
-              ${place.name}
-            </li>`
-          )
-          .join("")}
-        </body>
-      </html>`
-    );
-  } catch (error) {
-    next(error);
-  }
-});
+app.use("/users", require("./routes/users")); //!ROUTE FOR /USERS
+app.use("/places", require("./routes/places"));
 
 const start = async () => {
   try {
