@@ -18,6 +18,7 @@ const head = ({ title }) => `
   `;
 
 app.get("/", async (req, res, next) => {
+  //!Dont forget to remove users after / bc it's already mounted on server.js
   try {
     const [users, places] = await Promise.all([getUsers(), getPlaces()]);
     res.send(
