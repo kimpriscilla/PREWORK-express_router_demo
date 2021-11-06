@@ -1,0 +1,18 @@
+body {
+  font-family: verdana;
+  padding: 1rem;
+}
+
+/* both ul tag AND id=nav */
+ul#nav {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  background-color: dodgerblue;
+  padding: 1rem;
+}
+
+/* both ul tag AND id =nav PLUS all descendants that match a (in this case all links) */
+ul#nav a {
+  color: cornsilk;
+}
